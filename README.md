@@ -10,3 +10,5 @@ To run code in matlab, first prepare all the relevant files including:
 Note that the files are large and the code required a computer with 128gb RAM to run in its current form.
 
 You can find these raw data, including the output files necessary to run the code on BioImage Archive: https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD676
+
+Saveastiff function can be accessed here: https://www.mathworks.com/matlabcentral/fileexchange/35684-multipage-tiff-stack
