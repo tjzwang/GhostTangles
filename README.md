@@ -12,3 +12,5 @@ Note that the files are large and the code required a computer with 128gb RAM to
 You can find these raw data, including the output files necessary to run the code on BioImage Archive: https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD676
 
 Saveastiff function can be accessed here: https://www.mathworks.com/matlabcentral/fileexchange/35684-multipage-tiff-stack
+
+Zwang LMER contain the R code used to run the linear mixed effects model
