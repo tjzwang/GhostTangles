@@ -1,0 +1,54 @@
+---
+title: "Zwang2023_LMER"
+output: html_notebook
+---
+
+```{r}
+#loading the tools
+library(readr)
+library(forcats)
+library(lme4)
+library(ggplot2)
+library(stargazer)
+library(lmerTest)
+library(rcompanion)
+library(tidyverse)
+library(emmeans)
+library(ggResidpanel)
+library(jtools)
+```
+
+```{r}
+#loading the data
+setwd("C:/Users/Rachel/Desktop/R")
+
+dataHuDAT8<- read_csv("Hud_AT8_Data_LMM.csv", col_types = cols (
+  at8_type = 'f',
+  cortex_layer = 'f',
+  donor_id = 'f'
+))
+
+#explore the data
+summary(dataHuDAT8$cortex_layer)
+summary(dataHuDAT8$Size)
+summary(dataHuDAT8$donor_id)
+
+dataHuDAT8$donor_idOrdered <- ordered(dataHuDAT8$donor_id, levels=c("2131", "2302", "2399"))
+#dataHuDAT8$cortex <- ordered(dataHuDAT8$cortex, levels=c("1", "2", "3", "4", "5", "6"))
+
+table1::label(dataHuDAT8$donor_idOrdered) <- "donor_id"
+table1::label(dataHuDAT8$at8_type) <- "at8_type"
+
+table1::table1(~  at8_type | donor_idOrdered, data = dataHuDAT8)
+```
+
+```{r}
+#linear mixed effects model taking into account 3 donors, size is log transformed
+model_size2<- lmer(log_size ~ at8_type + cortex_layer + (1|donor_id), data = dataHuDAT8)
+j_summ(model_size2, digits = getOption("jtools-digits", 4),)
+resid_panel(model_size2) 
+# NOTE residual plots indicate that the data meet assumptions of LMER without transformation
+```
+
+
+

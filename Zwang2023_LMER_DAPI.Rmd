@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#loading the tools
+library(readr)
+library(forcats)
+library(lme4)
+library(ggplot2)
+library(stargazer)
+library(lmerTest)
+library(rcompanion)
+library(tidyverse)
+library(emmeans)
+library(ggResidpanel)
+library(jtools)
+```
+
+```{r}
+#loading the data
+setwd("C:/Users/Rachel/Desktop/R")
+
+dataDAPI<- read_csv("DAPI_AT8_Data_LMM.csv", col_types = cols (
+  at8_type = 'f',
+  cortex_layer = 'f',
+  donor_id = 'f'
+))
+
+summary(dataDAPI$cortex_layer)
+summary(dataDAPI$Size)
+summary(dataDAPI$donor_id)
+
+dataDAPI$donor_idOrdered <- ordered(dataDAPI$donor_id, levels=c("2131", "2302", "2399"))
+#dataDAPI$cortex <- ordered(datadataDAPI$cortex, levels=c("1", "2", "3", "4", "5", "6"))
+
+table1::label(dataDAPI$donor_idOrdered) <- "donor_id"
+table1::label(dataDAPI$at8_type) <- "at8_type"
+
+table1::table1(~  at8_type | donor_idOrdered, data = dataDAPI)
+
+```
+
+```{r}
+model_size3<- lmer(log_size ~ at8_type + cortex_layer + (1|donor_id), data = dataDAPI)
+
+j_summ(model_size3,digits = getOption("jtools-digits", 4),)
+#summary(model_size3)
+resid_panel(model_size3)
+
+```
+
+
+
+
